@@ -38,7 +38,8 @@ function gotoChat(e) {
     surname: surnameField.value,
   };
 
-  const ws = new WebSocket("ws://localhost:1122");
+  const protocol = location.protocol === 'http:' ? 'ws' : 'wss'
+  const ws = new WebSocket(`${protocol}://${location.host}`);
 
   ws.addEventListener("open", () => {
     sendBtn.addEventListener("click", (e) => {
