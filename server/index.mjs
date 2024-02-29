@@ -4,10 +4,10 @@ import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { WebSocketServer } from "ws";
 
-const server = fastify();
+const f = fastify();
 
 const wss = new WebSocketServer({
-  port: 1122,
+  server: f.server,
 });
 
 wss.on("connection", (client) => {
@@ -15,7 +15,7 @@ wss.on("connection", (client) => {
     try {
       const user = JSON.parse(data);
       const avatar = user.name[0].toUpperCase() + user.surname[0].toUpperCase();
-      
+
       wss.clients.forEach((cl) => {
         if (cl !== client) {
           cl.send(
@@ -45,15 +45,14 @@ wss.on("connection", (client) => {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-server.register(fastifyStatic, {
+f.register(fastifyStatic, {
   root: join(__dirname, "../build"),
 });
 
 const port = process.env.PORT || 3212;
-const host = process.env.HOST || 'localhost';
+const host = process.env.HOST || "localhost";
 
-server
-  .listen({ port, host })
+f.listen({ port, host })
   .then((adress) => console.log("server started at " + adress))
   .catch((err) => {
     console.log("Error " + err);
