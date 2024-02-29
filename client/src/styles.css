@@ -296,3 +296,8 @@
       transform: translateX(0px);
     }
   }
+
+  .inactive{
+    opacity: .5;
+    pointer-events: none;
+  }

@@ -8,6 +8,13 @@ const chat = document.querySelector(".chat__container");
 const sendBtn = document.querySelector(".chat__send-btn");
 const message = document.querySelector(".chat__input-field");
 
+message.addEventListener('input', e => {
+  sendBtn.classList.remove('inactive')
+  if(!e.target.value){
+    sendBtn.classList.add('inactive')
+  }
+})
+
 function checkTextField(e) {
   e.target.classList.remove("empty");
 }
@@ -39,8 +46,6 @@ function gotoChat(e) {
   };
   const protocol = location.protocol === 'http:' ? 'ws' : 'wss'
   const ws = new WebSocket(`${protocol}://${location.host}`);
-
-  // const ws = new WebSocket("ws://localhost:1122");
 
   ws.addEventListener("open", () => {
     sendBtn.addEventListener("click", (e) => {
